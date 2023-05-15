@@ -7,10 +7,10 @@ locals {
 
   full_message_metric_alert = <<EOF
 ${var.message}
-${var.dashboard_id != "" ? "Dashboard: https://app.datadoghq.com/dashboard/${var.dashboard_id}" : ""}
-${var.dashboard_id == "" && var.timeboard_id != "" ? "Timeboard: https://app.datadoghq.com/dash/${var.timeboard_id}" : ""}
-Related timeboards: https://app.datadoghq.com/dashboard/lists?q=${join("+-+", [var.product_domain, var.service, var.environment])}
-Related monitors: https://app.datadoghq.com/monitors/manage?q=tag%3A%28%22${join("%22%20AND%20%22", local.tags)}%22%29
+${var.dashboard_id != "" ? "Dashboard: https://app.datadoghq.eu/dashboard/${var.dashboard_id}" : ""}
+${var.dashboard_id == "" && var.timeboard_id != "" ? "Timeboard: https://app.datadoghq.eu/dash/${var.timeboard_id}" : ""}
+Related timeboards: https://app.datadoghq.eu/dashboard/lists?q=${join("+-+", [var.product_domain, var.service, var.environment])}
+Related monitors: https://app.datadoghq.eu/monitors/manage?q=tag%3A%28%22${join("%22%20AND%20%22", local.tags)}%22%29
 Notification recipients:${local.recipients_message}${local.alert_message}${local.alert_recovery_message}${local.warning_message}${local.warning_recovery_message}
 EOF
 
@@ -19,7 +19,7 @@ EOF
 
 Logger : {{ log.attributes.[logger.name] }}
 
-[View in Error Tracking](https://app.datadoghq.com/logs/error-tracking?issueId={{[issue.id].name}})
+[View in Error Tracking](https://app.datadoghq.eu/logs/error-tracking?issueId={{[issue.id].name}})
 
 ${local.alert_message}
 EOF
@@ -61,6 +61,8 @@ resource "datadog_monitor" "template" {
   notify_no_data    = var.notify_no_data
 
   require_full_window = var.require_full_window
+
+  priority = var.priority
 
   tags = concat(local.tags, var.tags)
 }

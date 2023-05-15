@@ -123,3 +123,8 @@ variable "notify_no_data" {
   default     = false
   description = "Notify if there is no data receive"
 }
+
+variable "priority" {
+  type        = number
+  description = "priority of alert"
+}
